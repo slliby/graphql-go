@@ -1,0 +1,177 @@
+# 业务类型
+enum BusinessType {
+    # 网页
+    Image
+    # 点播
+    Play
+    # 下载
+    Download
+    # 动态
+    Dynamic
+    # 直播
+    Live
+    # 上传
+    Upload
+    # 其他
+    Other
+    # 未设置
+    Unset
+}
+
+# 账单类型
+enum BillType {
+    # 视频点播
+    Vod
+    # ImageX
+    Imagex
+    # 融合CDN
+    FusionCDN
+}
+
+# 服务区域
+enum RegionType {
+    # 国内
+    CN
+    # 海外
+    other
+    # 未设置
+    Unset
+}
+
+# 域名状态
+enum DeployStatus {
+    # 未知
+    Unknown
+    # 未同步
+    Outdated
+    # 部署成功
+    Synced
+    # 下发中
+    Pending
+}
+
+# 当前下发步骤状态
+enum DeployStepStatusEnum {
+    # 不需要启动
+    Idle
+    # 等待执行
+    Waiting
+    # 执行中
+    Running
+    # 成功
+    Success
+    # 失败
+    Failed
+    # 已经跳过
+    Skipped
+    # 不用下发
+    NotStart
+    # 阻塞
+    Blocked
+    # 无
+    Unset
+}
+
+# 调度方式
+enum ScheduleTypeEnum {
+    # 域名级调度
+    DomainSchedule
+    # 线路级调度
+    LineSchedule
+}
+
+# 回源协议
+enum SchemeType {
+    # Http
+    Http
+    # Https
+    Https
+    # 保持原协议
+    Follow
+}
+
+# 缓存类型
+enum CacheType {
+    # 默认
+    Default
+    # 后缀名缓存
+    Suffix
+    # 目录缓存
+    Directory
+    # 完整路径缓存
+    FullPath
+    # 无
+    Unset
+}
+
+# 匹配类型
+enum MatchModeType {
+    # 包含
+    Contain
+    # 不包含
+    NotContain
+    # 等于
+    Equal
+    # 不等于
+    NotEqual
+    # 少于
+    LessThan
+    # 多于
+    GreaterThan
+    # 小于等于
+    LessThanEqual
+    # 大于等于
+    GreaterThanEqual
+}
+
+# Https
+enum HttpsEnabled {
+    # 开启
+    True
+    # 未开启
+    False
+}
+
+# 审核单状态
+enum ReviewStateEnum {
+    # 待审核
+    Pending
+    # 审核通过
+    Approved
+    # 审核拒绝
+    Rejected
+    # 应用失败
+    ApplyFailed
+    # 终止
+    Terminated
+    # 生效
+    Applied
+}
+
+# 审核操作类型
+enum ReviewPurposeEnum {
+    # 新建
+    Create
+    # 更新
+    Update
+    # 删除
+    Delete
+}
+
+# 字段类型
+enum ValueType {
+    # 字符串
+    String
+}
+
+# 请求方法
+enum HttpMethodTypeEnum {
+    # Head方法
+    HEAD
+    # Post方法
+    POST
+    # Get方法
+    GET
+    # 无
+    Unset
+}

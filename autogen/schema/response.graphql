@@ -1,0 +1,4 @@
+type Response {
+    # 审核单id
+    ticket_id: Int!
+}

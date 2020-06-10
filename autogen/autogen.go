@@ -68,6 +68,11 @@ func GenSchema(s *schema.Schema) string {
 		if ok {
 			types = append(types, GenInput(input))
 		}
+
+		enum, ok := t.(*schema.Enum)
+		if ok {
+			types = append(types, GenEnum(enum))
+		}
 	}
 	return strings.Join(types, "\n")
 }
@@ -107,6 +112,25 @@ func GenInput(i *schema.InputObject) string {
 	return output
 }
 
+func GenEnum(e *schema.Enum) string {
+	var output string
+	if len(e.Desc) != 0 {
+		output = "// " + e.Desc + "\n"
+	}
+	output += fmt.Sprintf("type %s = string\n", e.Name)
+	output += fmt.Sprintf("const (\n")
+	ident := "    "
+	for _, v := range e.Values {
+		output += ident + fmt.Sprintf("%s = \"%s\"", v.Name, v.Name)
+		if len(v.Desc) != 0 {
+			output += " // " + v.Desc
+		}
+		output += "\n"
+	}
+	output += fmt.Sprintf(")\n")
+	return output
+}
+
 func GenInterface(t *schema.Interface) string {
 	var output string
 	output = fmt.Sprintf("type %s struct {\n", t.TypeName())
@@ -120,7 +144,7 @@ func GenInterface(t *schema.Interface) string {
 
 func GetInputDef(v *common.InputValue) string {
 	def := GetInputName(v) + " " + GetInputTypeName(v)
-	def += fmt.Sprintf("`json:\"%s\" form:\"%s\" desc:\"%s\"`", v.Name, v.Name, v.Desc) // tag
+	def += fmt.Sprintf("`json:\"%s\" form:\"%s\" desc:\"%s\"`", v.Name.Name, v.Name.Name, v.Desc) // tag
 	if len(v.Desc) > 0 {
 		def += " // " + v.Desc
 	}

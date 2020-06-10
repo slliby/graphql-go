@@ -1,0 +1,70 @@
+# 认证信息
+input AuthInfoInput {
+    # DB记录里的ID
+    # id: Int!
+    # 认证, 签算方式的名称
+    name: String!
+    # 具体的签算的描述, 包含算法
+    # description: String!
+    # 参数描述
+    params: [AuthParamInput!]!
+}
+
+# 认证参数
+input AuthParamInput {
+    # 参数名
+    name: String!
+    # 参数值
+    value: String!
+    # 参数描述, 比如类型, 示例, 给前端用在tips
+    # description: String!
+}
+
+# 分页参数
+input PagingOption {
+    # 页面大小
+    PageSize: Int!
+    # 页码
+    PageNum: Int!
+}
+
+# 过滤参数
+input FilterRule {
+    # 需要过滤的字段名称
+    field: String!
+    # 目标值, 多个值之间为or关系。例如: Field="X", Values=["a", "b"]即代表X==”a"或X=="b"均满足条件
+    values: [String!]!
+    # 匹配类型: contain, not_contain, equal, not_equal
+    match_mode: MatchModeType!
+}
+
+# 过滤域名请求
+input FilterDomainReq {
+    # 过滤规则
+    filters: [FilterRule!]!
+    # 分页参数
+    pagination: PagingOption
+}
+
+# 审核单状态更新请求
+input UpdateDomainReviewStateReq {
+    # 审核单ID
+    id: Int!
+    # 新状态
+    next_state: ReviewStateEnum!
+    # 审核人
+    reviewer: String!
+    # 是否是主域名
+    is_main: Boolean!
+}
+
+# 过滤域名审核单请求
+input FilterDomainReviewReq {
+    # 过滤规则
+    filters: [FilterRule!]!
+    # 分页参数
+    pagination: PagingOption
+    # 是否为主域名
+    is_main: Boolean!
+}
+

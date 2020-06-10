@@ -1,0 +1,23 @@
+#服务树节点信息
+type ServiceTreeNode {
+    # id
+    id: Int!
+    #节点名称
+    name: String!
+    # 父节点
+    parent: Int
+    # 创建时间
+    created_at: Int!
+    # 创建人
+    created_by: String!
+    # 子节点
+    children: [ServiceTreeNode!]!
+    # 国家
+    country_codes: [String!]!
+    # 账户id
+    account_id: String!
+    # app分类
+    app_category: String!
+    # 备注
+    desc: String!
+}

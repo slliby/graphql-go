@@ -1,0 +1,206 @@
+# 域名cdn配置
+input DomainCdnConfigInput {
+    # 源站信息
+    origin_server: DomainOriginServerConfigInput!
+    # 回源配置
+    back_to_origin: DomainBackToOriginConfigInput!
+    # 访问控制
+    access_control: DomainAccessControlConfigInput!
+    # https配置
+    https: DomainHttpsConfigInput!
+    # 缓存配置
+    cache: DomainCacheConfigInput!
+    # 用户自定义配置
+    other: DomainOtherConfigInput!
+}
+
+# 源站信息
+input DomainOriginServerConfigInput {
+    # 源站规则列表
+    items: [DomainOriginServerRuleInput!]!
+}
+
+# 源站规则
+input DomainOriginServerRuleInput {
+    # 匹配规则
+    match_rule: String!
+    # 主源站
+    main: DomainOriginServerInfoInput!
+    # 备源站
+    back_up: DomainOriginServerInfoInput
+}
+
+# 源站信息
+input DomainOriginServerInfoInput {
+    # true 为融合源站，false 则为基础源站
+    is_fusion_origin: Boolean!
+    # 当is_fusion_origin=true时, 为绑定的融合源站; 否则，为绑定的基础源站
+    origin: EntityInput!
+    # 源站地址
+    end_point: String!
+    # 是否开启鉴权
+    enable_auth: Boolean!
+    # 鉴权信息
+    auth: AuthInfoInput
+    # 回源host
+    host: String!
+}
+
+# 域名回源配置
+input DomainBackToOriginConfigInput {
+    # 回源协议: http, https, follow(保持原协议)
+    scheme: SchemeType!
+    # 回源改写
+    rewrites: [RewriteRuleInput!]!
+    # 回源请求http头部
+    headers: [KeyValuePairInput!]!
+    # 是否开启range回源
+    enable_range: Boolean!
+    # 是否follow 302
+    enable_follow302: Boolean!
+}
+
+# 域名访问控制配置
+input DomainAccessControlConfigInput {
+    # 防盗链
+    refer: DomainReferAuthInput!
+    # url鉴权
+    url: DomainUrlAuthInput!
+    # ip黑白名单
+    ip: DomainIPAuthInput!
+    # ua黑白名单
+    ua: DomainUAAuthInput!
+    # 二次鉴权
+    recheck: DomainRecheckAuthInput!
+}
+
+# 域名cdn refer防盗链配置
+input DomainReferAuthInput {
+    # 是否开启Refer防盗链
+    enabled: Boolean!
+    # 当前是黑名单还是白名单
+    is_white_mode: Boolean!
+    # refer名单列表
+    values: [String!]!
+    # 是否允许空白refer
+    allow_empty_refer: Boolean!
+}
+
+# 域名cdn url鉴权配置
+input DomainUrlAuthInput {
+    # 是否开启url鉴权
+    enabled: Boolean!
+    # 鉴权信息
+    auth_info: AuthInfoInput
+}
+
+# 域名cdn IP黑白名单配置
+input DomainIPAuthInput {
+    # 是否打开黑白名单
+    enabled: Boolean!
+    # 当前是黑名单还是白名单
+    is_white_mode: Boolean!
+    # 名单列表
+    values: [String!]!
+}
+
+# 域名cdn UA黑白名单配置
+input DomainUAAuthInput {
+    # 是否打开黑白名单
+    enabled: Boolean!
+    # 当前是黑名单还是白名单
+    is_white_mode: Boolean!
+    # 名单列表
+    values: [String!]!
+}
+
+# 域名cdn二次鉴权配置
+input DomainRecheckAuthInput {
+    # 是否打开二次鉴权
+    enabled: Boolean!
+    # 二次鉴权服务器
+    host: String!
+    # 请求方法
+    method: HttpMethodTypeEnum!
+    # 鉴权参数
+    params: [String!]!
+    # 鉴权成功返回码
+    success_code: Int!
+    # 鉴权失败返回码
+    failed_code: Int!
+    # 超时等待时间
+    timeout: Int!
+    # 默认鉴权通过
+    default_pass: Boolean!
+}
+
+# 域名https配置信息
+input DomainHttpsConfigInput {
+    # 是否开启https
+    enabled: Boolean!
+    # 是否强制https
+    forced: Boolean!
+    # 证书
+    certificate: EntityInput
+}
+
+# 域名cdn缓存配置
+input DomainCacheConfigInput {
+    # cdn缓存规则
+    rules: [DomainCacheRuleInput!]!
+    # 根据状态码缓存
+    status: [DomainStatusCacheRuleInput!]!
+    # 是否去问号缓存
+    remove_query_params: Boolean!
+    # 保留特定参数返回
+    persist_params: [String!]!
+    # 是否开启共享缓存
+    enable_share_cache: Boolean!
+    # 共享缓存的域名
+    share_cache_domain: String!
+    # http头部(response header)
+    headers: [KeyValuePairInput!]!
+    # url改写
+    rewrites: [RewriteRuleInput!]!
+}
+
+# 域名缓存规则
+input DomainCacheRuleInput {
+    # 规则
+    rule: String!
+    # 缓存时间, 单位（秒）
+    timeout: Int!
+    # 缓存类型: default, suffix, directory, full_path
+    kind: String!
+}
+
+# 状态码缓存
+input DomainStatusCacheRuleInput {
+    # 状态码
+    code: Int!
+    # 缓存时间, 单位（秒）
+    timeout: Int!
+}
+
+#域名自定义配置
+input DomainOtherConfigInput {
+    # 配置项
+    items: [String!]!
+}
+
+# url改写规则
+input RewriteRuleInput {
+    pattern: String!
+    replace: String!
+}
+
+input KeyValuePairInput {
+    key: String!
+    value: String!
+}
+
+# entity
+input EntityInput {
+    id: Int!
+}
+
